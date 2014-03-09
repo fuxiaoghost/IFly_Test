@@ -23,18 +23,29 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
     
     
-    UIButton *startBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [startBtn setTitle:@"开始" forState:UIControlStateNormal];
+    
+    startBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [startBtn setTitle:@"按下说话" forState:UIControlStateNormal];
     [startBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [self.window addSubview:startBtn];
-    startBtn.frame = CGRectMake(60, 100, 200, 60);
+    startBtn.frame = CGRectMake(60, [[UIScreen mainScreen] bounds].size.height - 70, 200, 60);
     startBtn.backgroundColor = [UIColor lightGrayColor];
     
+    resultView = [[UITextView alloc] initWithFrame:CGRectMake(0, 20, 320, 300)];
+    [self.window addSubview:resultView];
+    resultView.editable = NO;
+    [resultView release];
     
-    [startBtn addTarget:self action:@selector(startBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    loadingView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(10, 20, 20, 20)];
+    [startBtn addSubview:loadingView];
+    [loadingView release];
+    
+    
+    
+    [startBtn addTarget:self action:@selector(startBtnTouchDown:) forControlEvents:UIControlEventTouchDown];
+    [startBtn addTarget:self action:@selector(startBtnTouchUp:) forControlEvents:UIControlEventTouchUpInside];
     
     
     // 需要先登陆
@@ -45,10 +56,11 @@
     [loginUser login:nil pwd:nil param:loginString];
     [loginString autorelease];
     
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
-- (void)startBtnClick:(id)sender{
+- (void)startBtnTouchDown:(id)sender{
     if (![IFlySpeechUser isLogin]) {
         UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"正在登录……" message:@"" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];
@@ -63,22 +75,35 @@
         [loginString autorelease];
     }
     else {
-        // 创建语义识别对象
-        NSString *initString = [[NSString alloc] initWithFormat:@"appid=%@",APPID];
-        IFlySpeechRecognizer *iflySpeechRecognizer = [IFlySpeechRecognizer createRecognizer:initString delegate:self];
-        //设置识别参数
-        [iflySpeechRecognizer setParameter:@"domain" value:@"iat"];//普通听写服务
-        [iflySpeechRecognizer setParameter:@"sample_rate" value:@"16000"];//录音采样率为16k
-        [iflySpeechRecognizer setParameter:@"vad_bos" value:@"1800"];//前端点检测时间
-        [iflySpeechRecognizer setParameter:@"vad_eos" value:@"6000"];//后端点检测时间
-        [iflySpeechRecognizer setParameter:@"asr_sch" value:@"1"];//开启语义处理
-        [iflySpeechRecognizer setParameter:@"plain_result" value:@"1"]; //解析识别内容
-        [iflySpeechRecognizer setParameter:@"params" value:@"rst=json,nlp_version=2.0"];
-        //[iflySpeechRecognizer setParameter:@"params" value:@"scn=weather"];//语义场景为天气
+        IFlySpeechRecognizer *iflySpeechRecognizer = [IFlySpeechRecognizer getRecognizer];
+        if (!iflySpeechRecognizer) {
+            // 创建语义识别对象
+            NSString *initString = [[NSString alloc] initWithFormat:@"appid=%@",APPID];
+            iflySpeechRecognizer = [IFlySpeechRecognizer createRecognizer:initString delegate:self];
+            //设置识别参数
+            [iflySpeechRecognizer setParameter:@"domain" value:@"iat"];//普通听写服务
+            [iflySpeechRecognizer setParameter:@"sample_rate" value:@"16000"];//录音采样率为16k
+            [iflySpeechRecognizer setParameter:@"vad_bos" value:@"1800"];//前端点检测时间
+            [iflySpeechRecognizer setParameter:@"vad_eos" value:@"6000"];//后端点检测时间
+            [iflySpeechRecognizer setParameter:@"asr_sch" value:@"1"];//开启语义处理
+            [iflySpeechRecognizer setParameter:@"plain_result" value:@"1"]; //解析识别内容
+            [iflySpeechRecognizer setParameter:@"params" value:@"rst=json,nlp_version=2.0"];
+            //[iflySpeechRecognizer setParameter:@"params" value:@"scn=weather"];//语义场景为天气
+            
+            [initString release];
+        }
         
         //启动识别服务
         [iflySpeechRecognizer startListening];
     }
+    [startBtn setTitle:@"抬起识别" forState:UIControlStateNormal];
+    
+}
+
+- (void) startBtnTouchUp:(id)sender{
+    IFlySpeechRecognizer *iflySpeechRecognizer = [IFlySpeechRecognizer getRecognizer];
+    [iflySpeechRecognizer stopListening];
+    
 }
 
 
@@ -130,7 +155,15 @@
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:results options:NSJSONWritingPrettyPrinted error:NULL];
     NSString *json =[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     NSLog(@"%@",json);
-    [json release];
+   
+    
+    resultView.text = json;
+    
+     [json release];
+    
+    startBtn.enabled = YES;
+    [loadingView stopAnimating];
+    [startBtn setTitle:@"按下说话" forState:UIControlStateNormal];
 }
 
 
@@ -158,6 +191,9 @@
  */
 - (void) onEndOfSpeech{
     NSLog(@"end speech");
+    startBtn.enabled = NO;
+    [loadingView startAnimating];
+    [startBtn setTitle:@"识别中……" forState:UIControlStateNormal];
 }
 
 /** 取消识别回调

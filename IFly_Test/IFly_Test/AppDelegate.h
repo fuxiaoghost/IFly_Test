@@ -10,7 +10,11 @@
 #import "iflyMSC/IFlySpeechRecognizer.h"
 #import "iflyMSC/IFlySpeechUser.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate,IFlySpeechRecognizerDelegate,IFlySpeechUserDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,IFlySpeechRecognizerDelegate,IFlySpeechUserDelegate>{
+    UITextView *resultView;
+    UIButton *startBtn;
+    UIActivityIndicatorView *loadingView;
+}
 
 @property (retain, nonatomic) UIWindow *window;
 

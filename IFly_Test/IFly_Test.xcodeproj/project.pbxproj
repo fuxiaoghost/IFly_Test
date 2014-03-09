@@ -13,6 +13,8 @@
 		DD6926DD18CC20EE00EF1580 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6926DC18CC20EE00EF1580 /* SystemConfiguration.framework */; };
 		DD6926DF18CC20F900EF1580 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6926DE18CC20F900EF1580 /* AudioToolbox.framework */; };
 		DD6926E318CC238F00EF1580 /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6926E218CC238F00EF1580 /* iflyMSC.framework */; };
+		DD6926EA18CC352000EF1580 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD6926E818CC352000EF1580 /* Default-568h@2x.png */; };
+		DD6926EB18CC352000EF1580 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = DD6926E918CC352000EF1580 /* Default.png */; };
 		DD924B4318CC104C005ECFBC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD924B4218CC104C005ECFBC /* Foundation.framework */; };
 		DD924B4518CC104C005ECFBC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD924B4418CC104C005ECFBC /* CoreGraphics.framework */; };
 		DD924B4718CC104C005ECFBC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD924B4618CC104C005ECFBC /* UIKit.framework */; };
@@ -43,6 +45,8 @@
 		DD6926DC18CC20EE00EF1580 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DD6926DE18CC20F900EF1580 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		DD6926E218CC238F00EF1580 /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iflyMSC.framework; path = IFly_Test/iflyMSC.framework; sourceTree = "<group>"; };
+		DD6926E818CC352000EF1580 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		DD6926E918CC352000EF1580 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		DD924B3F18CC104C005ECFBC /* IFly_Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IFly_Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD924B4218CC104C005ECFBC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DD924B4418CC104C005ECFBC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -139,6 +143,8 @@
 		DD924B4918CC104C005ECFBC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DD6926E818CC352000EF1580 /* Default-568h@2x.png */,
+				DD6926E918CC352000EF1580 /* Default.png */,
 				DD924B4A18CC104C005ECFBC /* IFly_Test-Info.plist */,
 				DD924B4B18CC104C005ECFBC /* InfoPlist.strings */,
 				DD924B4E18CC104C005ECFBC /* main.m */,
@@ -241,6 +247,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD924B4D18CC104C005ECFBC /* InfoPlist.strings in Resources */,
+				DD6926EB18CC352000EF1580 /* Default.png in Resources */,
+				DD6926EA18CC352000EF1580 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,6 +400,7 @@
 					/Users/Dawn/Documents/Projects/IFly_Test/IFly_Test/IFly_Test/iflyMSC.framework,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -412,6 +421,7 @@
 					/Users/Dawn/Documents/Projects/IFly_Test/IFly_Test/IFly_Test/iflyMSC.framework,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
