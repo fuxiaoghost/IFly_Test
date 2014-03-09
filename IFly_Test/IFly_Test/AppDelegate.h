@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "iflyMSC/IFlySpeechRecognizer.h"
+#import "iflyMSC/IFlySpeechUser.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,IFlySpeechRecognizerDelegate,IFlySpeechUserDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
+@property (retain, nonatomic) UIWindow *window;
 
 @end
